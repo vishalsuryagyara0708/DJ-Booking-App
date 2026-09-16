@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DJ Booking Pro - Professional Order Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', sans-serif;
+            background: #f5f7fa;
+            color: #2c3e50;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-tabs button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .nav-tabs button:hover {
+            border-bottom-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .nav-tabs button.active {
+            border-bottom-color: white;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Main Content */
+        .content {
+            display: none;
+        }
+
+        .content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Form Section */
+        .form-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            padding: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #667eea;
+            display: inline-block;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 0.6rem;
+            color: #2c3e50;
+            font-size: 14px;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 12px 14px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Sub-sections */
+        .subsection {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #667eea;
+        }
+
+        .subsection-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Checkbox Group */
+        .checkbox-group,
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .checkbox-item,
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-item input,
+        .radio-item input {
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+            accent-color: #667eea;
+        }
+
+        .checkbox-item label,
+        .radio-item label {
+            cursor: pointer;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 12px 32px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #ecf0f1;
+            color: #2c3e50;
+            border: 1px solid #bdc3c7;
+        }
+
+        .btn-secondary:hover {
+            background: #d5dbdb;
+        }
+
+        /* Orders List */
+        .orders-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .orders-header {
+            padding: 2rem;
+            border-bottom: 1px solid #ecf0f1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .orders-header h2 {
+            font-size: 22px;
+            color: #2c3e50;
+        }
+
+        .search-box {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            width: 300px;
+            font-size: 14px;
+        }
+
+        .orders-list {
+            padding: 2rem;
+        }
+
+        .order-card {
+            background: #f8f9fa;
+            border: 1px solid #ecf0f1;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .order-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .order-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .order-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .order-label {
+            font-size: 12px;
+            color: #7f8c8d;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .order-value {
+            font-size: 15px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            width: fit-content;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-confirmed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-completed {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .order-details {
+            display: none;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ecf0f1;
+        }
+
+        .order-card.expanded .order-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            color: #7f8c8d;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .detail-value {
+            font-size: 14px;
+            color: #2c3e50;
+            line-height: 1.5;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-edit {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .btn-edit:hover {
+            background: #b6d4ff;
+        }
+
+        .btn-delete {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .btn-delete:hover {
+            background: #f5c2c7;
+        }
+
+        .btn-print {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .btn-print:hover {
+            background: #bee5eb;
+        }
+
+        .btn-confirm {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .btn-confirm:hover {
+            background: #c3e6cb;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #7f8c8d;
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-state p {
+            font-size: 16px;
+            margin-bottom: 1rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s;
+        }
+
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 900px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+
+        /* Dashboard Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #7f8c8d;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        /* Payment Info Box */
+        .payment-info-box {
+            background: #d4edda;
+            border: 2px solid #4caf50;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .payment-info-box h4 {
+            color: #155724;
+            font-size: 16px;
+            margin-bottom: 1rem;
+        }
+
+        .payment-numbers {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .payment-number {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: white;
+            border-radius: 6px;
+            border-left: 4px solid #4caf50;
+        }
+
+        .payment-number strong {
+            color: #155724;
+            font-size: 16px;
+        }
+
+        .copy-btn {
+            padding: 6px 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #764ba2;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .order-header {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .nav-tabs {
+                gap: 0.5rem;
+            }
+
+            .nav-tabs button {
+                font-size: 13px;
+                padding: 0.5rem 0.75rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .order-actions {
+                flex-wrap: wrap;
+            }
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">♪ DJ BOOKING PRO</div>
+            <ul class="nav-tabs">
+                <li><button class="nav-btn active" onclick="switchTab('dashboard')">Dashboard</button></li>
+                <li><button class="nav-btn" onclick="switchTab('booking')">New Order</button></li>
+                <li><button class="nav-btn" onclick="switchTab('orders')">Orders</button></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Container -->
+    <div class="container">
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="content active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Orders</div>
+                    <div class="stat-value" id="totalOrders">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Confirmed Orders</div>
+                    <div class="stat-value" id="confirmedOrders">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Pending Orders</div>
+                    <div class="stat-value" id="pendingOrders">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Upcoming Events</div>
+                    <div class="stat-value" id="upcomingEvents">0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Booking Form Tab -->
+        <div id="booking" class="content">
+            <div id="message-container"></div>
+
+            <div class="form-section">
+                <div class="section-title">Customer Information</div>
+                <form id="bookingForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Full Name <span class="required">*</span></label>
+                            <input type="text" id="customerName" required placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address <span class="required">*</span></label>
+                            <input type="email" id="customerEmail" required placeholder="john@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number <span class="required">*</span></label>
+                            <input type="tel" id="customerPhone" required placeholder="+91 (555) 123-4567">
+                        </div>
+                        <div class="form-group">
+                            <label>Secondary Phone</label>
+                            <input type="tel" id="customerSecondaryPhone" placeholder="+91 (555) 987-6543">
+                        </div>
+                    </div>
+
+                    <!-- Event Details -->
+                    <div class="subsection">
+                        <div class="subsection-title">Event Details</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Event Type <span class="required">*</span></label>
+                                <select id="eventType" required>
+                                    <option value="">-- Select Event Type --</option>
+                                    <option value="wedding">Wedding Reception</option>
+                                    <option value="birthday">Birthday Party</option>
+                                    <option value="corporate">Corporate Event</option>
+                                    <option value="nightclub">Nightclub/Bar</option>
+                                    <option value="festival">Music Festival</option>
+                                    <option value="private">Private Party</option>
+                                    <option value="graduation">Graduation Party</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Event Date <span class="required">*</span></label>
+                                <input type="date" id="eventDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Event Start Time <span class="required">*</span></label>
+                                <input type="time" id="eventStartTime" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Event End Time <span class="required">*</span></label>
+                                <input type="time" id="eventEndTime" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Venue Details -->
+                    <div class="subsection">
+                        <div class="subsection-title">Venue Information</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Venue Name <span class="required">*</span></label>
+                                <input type="text" id="venueName" required placeholder="Hotel Grand Ballroom">
+                            </div>
+                            <div class="form-group">
+                                <label>Street Address <span class="required">*</span></label>
+                                <input type="text" id="venueStreet" required placeholder="123 Main Street">
+                            </div>
+                            <div class="form-group">
+                                <label>City <span class="required">*</span></label>
+                                <input type="text" id="venueCity" required placeholder="New Delhi">
+                            </div>
+                            <div class="form-group">
+                                <label>State <span class="required">*</span></label>
+                                <input type="text" id="venueState" required placeholder="Delhi">
+                            </div>
+                            <div class="form-group">
+                                <label>PIN Code <span class="required">*</span></label>
+                                <input type="text" id="venueZip" required placeholder="110001">
+                            </div>
+                            <div class="form-group">
+                                <label>Venue Contact Person</label>
+                                <input type="text" id="venueContact" placeholder="Venue Manager Name">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Venue Phone</label>
+                                <input type="tel" id="venuePhone" placeholder="+91 (555) 123-4567">
+                            </div>
+                            <div class="form-group">
+                                <label>Expected Number of Guests</label>
+                                <input type="number" id="guestCount" min="0" placeholder="150">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Special Requests -->
+                    <div class="subsection">
+                        <div class="subsection-title">Special Requests & Preferences</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Music Preferences (Genres, Artists, Songs)</label>
+                                <textarea id="musicPreferences" placeholder="E.g., Prefer 80s and 90s hits, avoid heavy metal..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Special Songs/Requests</label>
+                                <textarea id="specialSongs" placeholder="E.g., First dance song, entrance music, etc."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Agreement -->
+                    <div class="subsection">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="termsAgreed" required>
+                            <label for="termsAgreed">I agree to the booking terms and conditions <span class="required">*</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="button-group">
+                        <button type="submit" class="btn btn-primary">Create Booking</button>
+                        <button type="reset" class="btn btn-secondary">Clear Form</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Orders Tab -->
+        <div id="orders" class="content">
+            <div class="orders-container">
+                <div class="orders-header">
+                    <h2>All Bookings</h2>
+                    <input type="text" class="search-box" id="searchBox" placeholder="Search by customer name or email...">
+                </div>
+                <div class="orders-list" id="ordersList">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📅</div>
+                        <p>No bookings yet. Create your first DJ booking order!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content" style="position: relative;">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-header">Order Details</div>
+            <div id="modalDetails"></div>
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                <button class="btn btn-primary" onclick="printOrder()">Print Order</button>
+                <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Modal -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content" style="position: relative;">
+            <button class="modal-close" onclick="closeConfirmModal()">&times;</button>
+            <div class="modal-header">Confirm Booking & Send Payment Details</div>
+            <div id="confirmDetails"></div>
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                <button class="btn btn-confirm" onclick="confirmBooking()">Confirm & Send Details</button>
+                <button class="btn btn-secondary" onclick="closeConfirmModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let bookings = JSON.parse(localStorage.getItem('djBookings')) || [];
+        let confirmingBookingId = null;
+
+        // Payment Numbers
+        const paymentNumbers = [
+            '9502328566',
+            '9391432299'
+        ];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('bookingForm').addEventListener('submit', handleBookingSubmit);
+            document.getElementById('searchBox').addEventListener('input', handleSearch);
+            updateDashboard();
+            renderOrders();
+        });
+
+        // Switch Tabs
+        function switchTab(tabName) {
+            document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            updateDashboard();
+            renderOrders();
+        }
+
+        // Handle Booking Submit
+        function handleBookingSubmit(e) {
+            e.preventDefault();
+
+            const booking = {
+                id: Date.now(),
+                orderNumber: `ORD-${Date.now().toString().slice(-6)}`,
+                createdDate: new Date().toLocaleDateString('en-IN'),
+                status: 'pending',
+                
+                // Customer Info
+                customerName: document.getElementById('customerName').value,
+                customerEmail: document.getElementById('customerEmail').value,
+                customerPhone: document.getElementById('customerPhone').value,
+                customerSecondaryPhone: document.getElementById('customerSecondaryPhone').value,
+                
+                // Event Details
+                eventType: document.getElementById('eventType').value,
+                eventDate: document.getElementById('eventDate').value,
+                eventStartTime: document.getElementById('eventStartTime').value,
+                eventEndTime: document.getElementById('eventEndTime').value,
+                
+                // Venue Info
+                venueName: document.getElementById('venueName').value,
+                venueStreet: document.getElementById('venueStreet').value,
+                venueCity: document.getElementById('venueCity').value,
+                venueState: document.getElementById('venueState').value,
+                venueZip: document.getElementById('venueZip').value,
+                venueContact: document.getElementById('venueContact').value,
+                venuePhone: document.getElementById('venuePhone').value,
+                guestCount: document.getElementById('guestCount').value,
+                
+                // Special Requests
+                musicPreferences: document.getElementById('musicPreferences').value,
+                specialSongs: document.getElementById('specialSongs').value
+            };
+
+            bookings.push(booking);
+            localStorage.setItem('djBookings', JSON.stringify(bookings));
+
+            showMessage('✓ Booking created successfully!', 'success');
+            document.getElementById('bookingForm').reset();
+            updateDashboard();
+            renderOrders();
+            setTimeout(() => switchTab('orders'), 1000);
+        }
+
+        // Render Orders
+        function renderOrders() {
+            const ordersList = document.getElementById('ordersList');
+
+            if (bookings.length === 0) {
+                ordersList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📅</div>
+                        <p>No bookings yet. Create your first DJ booking order!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            ordersList.innerHTML = bookings.map(booking => `
+                <div class="order-card" onclick="toggleDetails(this)">
+                    <div class="order-header">
+                        <div class="order-info">
+                            <div class="order-label">Order #</div>
+                            <div class="order-value">${booking.orderNumber}</div>
+                        </div>
+                        <div class="order-info">
+                            <div class="order-label">Customer</div>
+                            <div class="order-value">${booking.customerName}</div>
+                        </div>
+                        <div class="order-info">
+                            <div class="order-label">Event Date</div>
+                            <div class="order-value">${booking.eventDate}</div>
+                        </div>
+                        <div class="order-info">
+                            <div class="order-label">Status</div>
+                            <div class="status-badge status-${booking.status}">${booking.status}</div>
+                        </div>
+                    </div>
+                    <div class="order-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Email</div>
+                            <div class="detail-value">${booking.customerEmail}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Phone</div>
+                            <div class="detail-value">${booking.customerPhone}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Event Type</div>
+                            <div class="detail-value">${booking.eventType}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Time</div>
+                            <div class="detail-value">${booking.eventStartTime} - ${booking.eventEndTime}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Venue</div>
+                            <div class="detail-value">${booking.venueName}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Address</div>
+                            <div class="detail-value">${booking.venueStreet}, ${booking.venueCity}, ${booking.venueState} ${booking.venueZip}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Guests</div>
+                            <div class="detail-value">${booking.guestCount || 'N/A'}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Music Preferences</div>
+                            <div class="detail-value">${booking.musicPreferences || 'None'}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Special Requests</div>
+                            <div class="detail-value">${booking.specialSongs || 'None'}</div>
+                        </div>
+                    </div>
+                    <div class="order-actions">
+                        <button class="btn-small btn-edit" onclick="editOrder(event, ${booking.id})">Edit</button>
+                        <button class="btn-small btn-print" onclick="printOrderDetail(event, ${booking.id})">Print</button>
+                        ${booking.status === 'pending' ? `<button class="btn-small btn-confirm" onclick="openConfirmModal(event, ${booking.id})">Confirm</button>` : ''}
+                        <button class="btn-small btn-delete" onclick="deleteOrder(event, ${booking.id})">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Toggle Order Details
+        function toggleDetails(card) {
+            document.querySelectorAll('.order-card').forEach(c => c.classList.remove('expanded'));
+            card.classList.add('expanded');
+        }
+
+        // Open Confirm Modal
+        function openConfirmModal(e, id) {
+            e.stopPropagation();
+            confirmingBookingId = id;
+            const booking = bookings.find(b => b.id === id);
+            if (booking) {
+                const confirmDetails = document.getElementById('confirmDetails');
+                confirmDetails.innerHTML = `
+                    <div style="line-height: 1.8; margin-bottom: 2rem;">
+                        <h4 style="margin-bottom: 1rem; color: #2c3e50;">Booking Information</h4>
+                        <p><strong>Order #:</strong> ${booking.orderNumber}</p>
+                        <p><strong>Customer:</strong> ${booking.customerName}</p>
+                        <p><strong>Email:</strong> ${booking.customerEmail}</p>
+                        <p><strong>Phone:</strong> ${booking.customerPhone}</p>
+                        <p><strong>Event Date:</strong> ${booking.eventDate}</p>
+                        <p><strong>Event Type:</strong> ${booking.eventType}</p>
+                        <p><strong>Venue:</strong> ${booking.venueName}</p>
+                    </div>
+
+                    <div class="payment-info-box">
+                        <h4>💳 Send Payment Details to Customer</h4>
+                        <div class="payment-numbers">
+                            ${paymentNumbers.map(number => `
+                                <div class="payment-number">
+                                    <div>
+                                        <strong>📱 ${number}</strong>
+                                        <div style="font-size: 12px; color: #7f8c8d; margin-top: 0.3rem;">Send Advance Amount</div>
+                                    </div>
+                                    <button class="copy-btn" onclick="copyToClipboard('${number}')">Copy</button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <p style="font-size: 13px; color: #7f8c8d; margin-top: 1rem; text-align: center;">
+                        Click "Confirm & Send Details" to mark this booking as confirmed and send payment instructions.
+                    </p>
+                `;
+                document.getElementById('confirmModal').classList.add('active');
+            }
+        }
+
+        // Close Confirm Modal
+        function closeConfirmModal() {
+            document.getElementById('confirmModal').classList.remove('active');
+            confirmingBookingId = null;
+        }
+
+        // Confirm Booking
+        function confirmBooking() {
+            const booking = bookings.find(b => b.id === confirmingBookingId);
+            if (booking) {
+                booking.status = 'confirmed';
+                localStorage.setItem('djBookings', JSON.stringify(bookings));
+                closeConfirmModal();
+                showMessage('✓ Booking confirmed! Payment details have been sent to customer.', 'success');
+                updateDashboard();
+                renderOrders();
+            }
+        }
+
+        // Copy to Clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('📋 Number copied: ' + text);
+            });
+        }
+
+        // Handle Search
+        function handleSearch() {
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+            const cards = document.querySelectorAll('.order-card');
+
+            cards.forEach(card => {
+                const customerName = card.querySelector('.order-value').textContent.toLowerCase();
+                const email = card.innerText.toLowerCase();
+                
+                if (customerName.includes(searchTerm) || email.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Delete Order
+        function deleteOrder(e, id) {
+            e.stopPropagation();
+            if (confirm('Are you sure you want to delete this booking?')) {
+                bookings = bookings.filter(b => b.id !== id);
+                localStorage.setItem('djBookings', JSON.stringify(bookings));
+                showMessage('✓ Booking deleted successfully!', 'success');
+                updateDashboard();
+                renderOrders();
+            }
+        }
+
+        // Edit Order
+        function editOrder(e, id) {
+            e.stopPropagation();
+            const booking = bookings.find(b => b.id === id);
+            if (booking) {
+                // Populate form with booking data
+                document.getElementById('customerName').value = booking.customerName;
+                document.getElementById('customerEmail').value = booking.customerEmail;
+                document.getElementById('eventDate').value = booking.eventDate;
+                document.getElementById('eventType').value = booking.eventType;
+                document.getElementById('eventStartTime').value = booking.eventStartTime;
+                document.getElementById('eventEndTime').value = booking.eventEndTime;
+                document.getElementById('venueName').value = booking.venueName;
+                document.getElementById('venueStreet').value = booking.venueStreet;
+                document.getElementById('venueCity').value = booking.venueCity;
+                document.getElementById('venueState').value = booking.venueState;
+                document.getElementById('venueZip').value = booking.venueZip;
+                document.getElementById('musicPreferences').value = booking.musicPreferences;
+                document.getElementById('specialSongs').value = booking.specialSongs;
+                switchTab('booking');
+                window.scrollTo(0, 0);
+            }
+        }
+
+        // Print Order Detail
+        function printOrderDetail(e, id) {
+            e.stopPropagation();
+            const booking = bookings.find(b => b.id === id);
+            if (booking) {
+                showModal(booking);
+            }
+        }
+
+        // Show Modal
+        function showModal(booking) {
+            const modalDetails = document.getElementById('modalDetails');
+            modalDetails.innerHTML = `
+                <div style="line-height: 1.8;">
+                    <h3 style="margin-bottom: 1rem;">Order #${booking.orderNumber}</h3>
+                    <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">Customer Information</h4>
+                    <p><strong>Name:</strong> ${booking.customerName}</p>
+                    <p><strong>Email:</strong> ${booking.customerEmail}</p>
+                    <p><strong>Phone:</strong> ${booking.customerPhone}</p>
+                    ${booking.customerSecondaryPhone ? `<p><strong>Secondary Phone:</strong> ${booking.customerSecondaryPhone}</p>` : ''}
+                    
+                    <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">Event Details</h4>
+                    <p><strong>Event Type:</strong> ${booking.eventType}</p>
+                    <p><strong>Date:</strong> ${booking.eventDate}</p>
+                    <p><strong>Time:</strong> ${booking.eventStartTime} - ${booking.eventEndTime}</p>
+                    
+                    <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">Venue Information</h4>
+                    <p><strong>Venue:</strong> ${booking.venueName}</p>
+                    <p><strong>Address:</strong> ${booking.venueStreet}, ${booking.venueCity}, ${booking.venueState} ${booking.venueZip}</p>
+                    ${booking.venueContact ? `<p><strong>Contact Person:</strong> ${booking.venueContact}</p>` : ''}
+                    ${booking.venuePhone ? `<p><strong>Venue Phone:</strong> ${booking.venuePhone}</p>` : ''}
+                    ${booking.guestCount ? `<p><strong>Expected Guests:</strong> ${booking.guestCount}</p>` : ''}
+                    
+                    ${booking.musicPreferences ? `<h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">Music Preferences</h4><p>${booking.musicPreferences}</p>` : ''}
+                    ${booking.specialSongs ? `<h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">Special Requests</h4><p>${booking.specialSongs}</p>` : ''}
+                    
+                    <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">Booking Information</h4>
+                    <p><strong>Order Date:</strong> ${booking.createdDate}</p>
+                    <p><strong>Status:</strong> ${booking.status}</p>
+                </div>
+            `;
+            document.getElementById('detailModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('detailModal').classList.remove('active');
+        }
+
+        function printOrder() {
+            window.print();
+        }
+
+        // Update Dashboard
+        function updateDashboard() {
+            const confirmed = bookings.filter(b => b.status === 'confirmed').length;
+            const pending = bookings.filter(b => b.status === 'pending').length;
+            const upcoming = bookings.filter(b => new Date(b.eventDate) > new Date()).length;
+
+            document.getElementById('totalOrders').textContent = bookings.length;
+            document.getElementById('confirmedOrders').textContent = confirmed;
+            document.getElementById('pendingOrders').textContent = pending;
+            document.getElementById('upcomingEvents').textContent = upcoming;
+        }
+
+        // Show Message
+        function showMessage(message, type) {
+            const container = document.getElementById('message-container');
+            const messageClass = type === 'success' ? 'success-message' : 'error-message';
+            container.innerHTML = `<div class="${messageClass}">${message}</div>`;
+            setTimeout(() => container.innerHTML = '', 3000);
+        }
+    </script>
+</body>
+</html>
